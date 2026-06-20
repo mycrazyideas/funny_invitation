@@ -1,0 +1,522 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>فریبا بیا شمال 🌿</title>
+
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    -webkit-tap-highlight-color:transparent;
+}
+
+body{
+    font-family: Tahoma, sans-serif;
+    background:#eef9ee;
+    color:#234;
+    overflow-x:hidden;
+    -webkit-user-select:none;
+    user-select:none;
+    min-height:100vh;
+}
+
+.hero{
+    height:80vh;
+    background:url("image.jpeg") center center/cover no-repeat;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    position:relative;
+}
+
+.hero::before{
+    content:"";
+    position:absolute;
+    inset:0;
+    background:rgba(0,0,0,.35);
+}
+
+.hero-content{
+    position:relative;
+    z-index:2;
+    text-align:center;
+    color:white;
+    padding:20px;
+}
+
+.hero h1{
+    font-size:2.5rem;
+    margin-bottom:15px;
+}
+
+.hero p{
+    font-size:1.1rem;
+}
+
+.container{
+    max-width:900px;
+    margin:auto;
+    padding:20px 15px;
+}
+
+.card{
+    background:white;
+    border-radius:20px;
+    padding:20px;
+    box-shadow:0 10px 30px rgba(0,0,0,.1);
+    position:relative;
+    overflow:hidden;
+}
+
+.card p{
+    line-height:2;
+    font-size:1rem;
+}
+
+.progress-box{
+    margin-top:25px;
+}
+
+.progress{
+    width:100%;
+    height:25px;
+    background:#ddd;
+    border-radius:999px;
+    overflow:hidden;
+}
+
+.progress-fill{
+    width:10%;
+    height:100%;
+    background:linear-gradient(90deg,#4CAF50,#8BC34A);
+    transition:0.5s;
+}
+
+#percent{
+    margin-top:8px;
+    font-weight:bold;
+    font-size:0.95rem;
+}
+
+.message{
+    margin-top:15px;
+    font-size:1rem;
+    color:#d63384;
+    min-height:35px;
+}
+
+.question{
+    text-align:center;
+    margin-top:35px;
+}
+
+.question h2{
+    margin-bottom:25px;
+    font-size:1.6rem;
+}
+
+.buttons{
+    position:relative;
+    height:180px;
+    overflow:hidden; /* مهم: دکمه‌ها از این باکس خارج نشوند */
+}
+
+button{
+    border:none;
+    border-radius:15px;
+    padding:12px 25px;
+    cursor:pointer;
+    font-size:1rem;
+    transition:0.3s;
+    touch-action:manipulation;
+    position:absolute; /* همه دکمه‌ها absolute */
+}
+
+#yesBtn{
+    background:#4CAF50;
+    color:white;
+    transform:scale(1);
+    padding:14px 35px;
+    font-size:1.1rem;
+    position:relative; /* دکمه آره relative میمونه */
+    z-index:2;
+}
+
+#noBtn{
+    background:#ff6b6b;
+    color:white;
+    position:absolute;
+    left:60%;
+    top:20px;
+    padding:14px 35px;
+    font-size:1.1rem;
+    z-index:3;
+    min-width:100px; /* حداقل عرض برای جلوگیری از جمع شدن */
+}
+
+/* باکس مخصوص پیام نهایی */
+.final-box{
+    background: linear-gradient(135deg, #fef9e7, #fdebd0);
+    border: 3px solid #f39c12;
+    border-radius:20px;
+    padding:20px;
+    margin-top:-30px;
+    box-shadow:0 8px 25px rgba(243,156,18,0.3);
+    text-align:center;
+    font-size:1rem;
+    line-height:2;
+    display:none;
+    transition:all 0.5s ease;
+}
+
+.final-box.show{
+    display:block;
+    animation:fadeInUp 0.6s ease;
+}
+
+@keyframes fadeInUp{
+    from{
+        opacity:0;
+        transform:translateY(30px);
+    }
+    to{
+        opacity:1;
+        transform:translateY(0);
+    }
+}
+
+.gallery{
+    margin-top:30px;
+    text-align:center;
+}
+
+.gallery img{
+    width:100%;
+    max-width:500px;
+    border-radius:20px;
+    box-shadow:0 10px 25px rgba(0,0,0,.15);
+}
+
+.confetti{
+    position:fixed;
+    top:-30px;
+    font-size:24px;
+    animation:fall 4s linear forwards;
+    pointer-events:none;
+    z-index:9999;
+}
+
+@keyframes fall{
+    to{
+        transform:translateY(120vh) rotate(720deg);
+    }
+}
+
+/* استایل دکمه نهایی */
+.buttons .final-btn{
+    background:#4CAF50;
+    color:white;
+    padding:14px 40px;
+    font-size:1.2rem;
+    border:none;
+    border-radius:15px;
+    cursor:pointer;
+    touch-action:manipulation;
+    position:relative;
+    z-index:2;
+}
+
+@media (max-width: 480px) {
+    .hero h1 {
+        font-size: 2rem;
+    }
+    .hero p {
+        font-size: 0.95rem;
+    }
+    .card {
+        padding: 15px;
+    }
+    .final-box {
+        padding: 15px;
+        font-size: 0.9rem;
+    }
+    .final-box div:first-child {
+        font-size: 1.5rem !important;
+    }
+    #yesBtn, #noBtn {
+        padding: 12px 25px;
+        font-size: 1rem;
+        min-width:80px;
+    }
+    .buttons {
+        height: 220px;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<section class="hero">
+    <div class="hero-content">
+        <h1>🌿 فریبا بیا شمال 🌿</h1>
+        <p>یه دعوت رسمی برای چند روز آرامش، چای و طبیعت 🥰</p>
+    </div>
+</section>
+
+<div class="container">
+
+<div class="card">
+
+<p>
+✨ تاسوعا و عاشورا میریم مراسم‌های سنتی محرم گیلان رو ببینیم.<br><br>
+
+❄️ ظهرها از خونه بیرون نمیریم.<br>
+☕ زیر کولر گازی می‌شینیم.<br>
+💬 باهم حرف می‌زنیم.<br>
+🍦 بستنی می‌خوریم.<br><br>
+
+🌅 صبح زود میریم کنار دریاچه.<br><br>
+
+🐄 عصرها هم گاوهایی که دارن برمی‌گردن خونه‌هاشون رو نگاه می‌کنیم.<br><br>
+
+🌳 فقط آرامش، طبیعت و خوش گذروندن کنار هم...
+</p>
+
+<div class="gallery">
+<img src="1000030537.jpg" alt="">
+</div>
+
+<div class="progress-box">
+<h3>میزان راضی شدن فریبا 😌</h3>
+
+<div class="progress">
+<div class="progress-fill" id="bar"></div>
+</div>
+
+<div id="percent">10%</div>
+</div>
+
+<div class="message" id="msg"></div>
+
+<div class="question">
+<h2>میاین شمال؟ 🥹</h2>
+
+<div class="buttons" id="buttonsContainer">
+
+<button id="yesBtn" onclick="accept()">
+آره 😍
+</button>
+
+<button id="noBtn">
+نه 🙄
+</button>
+
+</div>
+</div>
+
+<!-- باکس پیام نهایی -->
+<div class="final-box" id="finalBox">
+    <div style="font-size: 1.8rem; margin-bottom: 10px;">🎉🥳 فریبا متقاعد شد! 🥳🎉</div>
+    <div style="text-align: right; padding-right: 15px;">
+        ✅ چای نامحدود<br>
+        ✅ بستنی نامحدود<br>
+        ✅ مراسم محرم سنتی<br>
+        ✅ دعا خوندن کنار هم<br>
+        ✅ گرفتن عکس‌های قشنگ<br>
+        ✅ لذت بردن از طبیعت زیبا<br>
+        ✅ ساختن خاطرات خوب برای آینده<br>
+        ✅ چند روز آرامش مطلق 🌿
+    </div>
+</div>
+
+</div>
+</div>
+
+<script>
+
+let count=0;
+let isMobile = false;
+
+if('ontouchstart' in window || navigator.maxTouchPoints > 0) {
+    isMobile = true;
+}
+
+const noBtn=document.getElementById("noBtn");
+const yesBtn=document.getElementById("yesBtn");
+const bar=document.getElementById("bar");
+const percent=document.getElementById("percent");
+const msg=document.getElementById("msg");
+const finalBox=document.getElementById("finalBox");
+const buttonsContainer=document.getElementById("buttonsContainer");
+
+const messages=[
+"🤨 مطمئنی؟",
+"😐 خیلی مطمئنی؟",
+"🐸 قورباغه‌ها منتظرن ببیننت!",
+"☕ چایی رو کی با من بخوره؟",
+"🍦 بستنی‌ها دارن آب میشن!",
+"🌅 دریاچه ناراحت شد...",
+"🥺 تولدم مبارک نمیشه‌ها",
+"😅 باشه دیگه، بیا!"
+];
+
+// تابع برای حرکت دکمه "نه" با محدودیت‌های دقیق
+function moveNoButton(e) {
+    if(e) e.preventDefault();
+    
+    count++;
+
+    let p=Math.min(100,10+count*12);
+    bar.style.width=p+"%";
+    percent.innerText=p+"%";
+
+    if(count<=messages.length){
+        msg.innerText=messages[count-1];
+    }
+
+    // گرفتن ابعاد دقیق کانتینر
+    const containerRect = buttonsContainer.getBoundingClientRect();
+    const containerWidth = buttonsContainer.clientWidth;
+    const containerHeight = buttonsContainer.clientHeight;
+    
+    // ابعاد دکمه "نه"
+    const btnWidth = noBtn.offsetWidth || 100;
+    const btnHeight = noBtn.offsetHeight || 50;
+    
+    // محاسبه محدودیت‌ها با در نظر گرفتن حاشیه امن
+    const margin = 10;
+    const maxX = containerWidth - btnWidth - margin;
+    const maxY = containerHeight - btnHeight - margin;
+    const minX = margin;
+    const minY = margin;
+    
+    // موقعیت جدید با محدودیت
+    let newLeft = Math.random() * maxX;
+    let newTop = Math.random() * maxY;
+    
+    // اعمال محدودیت‌ها
+    newLeft = Math.max(minX, Math.min(newLeft, maxX));
+    newTop = Math.max(minY, Math.min(newTop, maxY));
+    
+    // اعمال موقعیت جدید
+    noBtn.style.left = newLeft + "px";
+    noBtn.style.top = newTop + "px";
+    noBtn.style.position = "absolute";
+
+    // بزرگ کردن دکمه "آره"
+    let scale = 1 + (count * 0.15);
+    yesBtn.style.transform = `scale(${Math.min(scale, 3)})`;
+
+    // کوچک کردن دکمه "نه"
+    let noScale = Math.max(0.3, 1 - count * 0.08);
+    noBtn.style.transform = `scale(${noScale})`;
+
+    if(count >= 8){
+        yesBtn.style.display = "none";
+        noBtn.style.display = "none";
+        msg.innerHTML = "🎉 مقاومت فریبا شکست خورد! 🎉";
+
+        const finalBtn = document.createElement("button");
+        finalBtn.innerHTML = "آره 😅";
+        finalBtn.onclick = accept;
+        finalBtn.className = "final-btn";
+        
+        buttonsContainer.appendChild(finalBtn);
+    }
+}
+
+// رویدادها برای دسکتاپ و موبایل
+noBtn.addEventListener("mouseover", moveNoButton);
+noBtn.addEventListener("touchstart", function(e) {
+    e.preventDefault();
+    moveNoButton(e);
+}, { passive: false });
+noBtn.addEventListener("click", function(e) {
+    if(isMobile) {
+        e.preventDefault();
+        moveNoButton(e);
+    }
+});
+
+// اطمینان از اینکه دکمه در موقعیت اولیه داخل کانتینر باشه
+window.addEventListener('load', function() {
+    setTimeout(function() {
+        const containerRect = buttonsContainer.getBoundingClientRect();
+        const btnWidth = noBtn.offsetWidth || 100;
+        const btnHeight = noBtn.offsetHeight || 50;
+        
+        // تنظیم اولیه دکمه
+        noBtn.style.left = "60%";
+        noBtn.style.top = "20px";
+        noBtn.style.position = "absolute";
+    }, 100);
+});
+
+// در صورت تغییر اندازه صفحه، موقعیت دکمه رو بررسی کن
+window.addEventListener('resize', function() {
+    if (noBtn.style.display !== 'none') {
+        const containerRect = buttonsContainer.getBoundingClientRect();
+        const containerWidth = buttonsContainer.clientWidth;
+        const containerHeight = buttonsContainer.clientHeight;
+        const btnWidth = noBtn.offsetWidth || 100;
+        const btnHeight = noBtn.offsetHeight || 50;
+        
+        let currentLeft = parseFloat(noBtn.style.left) || 0;
+        let currentTop = parseFloat(noBtn.style.top) || 0;
+        
+        const maxX = containerWidth - btnWidth - 10;
+        const maxY = containerHeight - btnHeight - 10;
+        
+        if (currentLeft > maxX) {
+            noBtn.style.left = maxX + "px";
+        }
+        if (currentTop > maxY) {
+            noBtn.style.top = maxY + "px";
+        }
+        if (currentLeft < 10) {
+            noBtn.style.left = "10px";
+        }
+        if (currentTop < 10) {
+            noBtn.style.top = "10px";
+        }
+    }
+});
+
+function accept(){
+
+    noBtn.style.display = "none";
+
+    bar.style.width = "100%";
+    percent.innerText = "100%";
+
+    msg.innerText = "";
+
+    finalBox.classList.add("show");
+
+    const extraBtns = document.querySelectorAll('.buttons .final-btn');
+    extraBtns.forEach(btn => btn.remove());
+
+    for(let i=0;i<80;i++){
+        let c=document.createElement("div");
+        c.className="confetti";
+        const emojis=["🎉","🌿","☕","🍦","🐄","💚","✨"];
+        c.innerText=emojis[Math.floor(Math.random()*emojis.length)];
+        c.style.left=Math.random()*100+"vw";
+        c.style.animationDuration=(2+Math.random()*3)+"s";
+        document.body.appendChild(c);
+        setTimeout(()=>c.remove(),5000);
+    }
+}
+
+document.addEventListener('dblclick', function(e) {
+    e.preventDefault();
+}, { passive: false });
+
+</script>
+
+</body>
+</html>
