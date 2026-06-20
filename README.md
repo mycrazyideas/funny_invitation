@@ -1,2 +1,4 @@
 # funny_invitation
-hi :)
+
+hello!
+This is my funny invitation :)
